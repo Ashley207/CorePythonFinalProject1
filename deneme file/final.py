@@ -9,5 +9,5 @@
 #pandas yüklenecek.
 import numpy as np
 import pandas as pd
-data= pd.read_csv("C:\Users\MSI\AppData\Local\Temp\d4555df6-37c6-4893-9a98-a455482a889f_archive.zip.89f\imdb_top_1000.csv")
+data= pd.read_csv("imdb_top_1000.csv")
 data.head(6)
