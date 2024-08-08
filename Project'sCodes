@@ -1,3 +1,48 @@
+#####
 #
-#
-#
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+import time
+
+def read_data(file):
+    try:
+        data = pd.read_csv(file)
+        return data
+    
+    except FileNotFoundError:
+        print("Dosya bulunamadi.")
+        return None
+
+data = read_data(r"c:\Users\Aslı\Downloads\imdb_top_1000.csv")
+df = pd.DataFrame(data)
+df = df.drop(columns=['Overwiev', 'Meta_Score','Star1','Star2','Star3','Star4','No_of_Votes','Gross'])
+
+print(data.head(6))
+
+class Film:
+    def __init__(self,Poster_Link, Series_Title, Released_Year, Runtime, Genre, Director, IMBD_Rating):
+        self.Poster_Link = Poster_Link
+        self.Series_Title = Series_Title
+        self.Released_Year= Released_Year
+        self.Runtime = Runtime
+        self.Genre = Genre
+        self.Director = Director
+        self.IMBD_Rating = IMBD_Rating
+
+    def __str__(self):    # __str__ metodu film nesnesi yazdırıldığında nasıl görünüceğini tanımlar
+        return f"{self.title} -{self.released_year}- directed by {self.director}, Rating:{self.IMBD_rating}, Runtime:{self.runtime}"
+    
+
+df = pd.DataFrame(data)  # bu satır ham veriyi DataFrame yapısına dönüştürür.
+
+film_list = []
+for index, row in df.iterrows(): # iterrows metodu, pandas DataFrame'in satırlarını bir döngü içinde gezmek için kullanılır.
+    film = Film(row["title"], row["released_year"], row["director"], row["IMBD_rating"], row["runtime"])
+    film_list.append(film)
+
+for film in film_list:
+    print(film)
+
+
+        
