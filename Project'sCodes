@@ -1,5 +1,14 @@
-#####
-#
+# class yapısı olmalı en az bir tane
+# en az bir tane karar kontrol yapısı- film önerirken kullanılacak.
+# en az bir tane döngü kullanılmalı
+# kullanıcıdan input alınmalı
+# hata kontrolü sağlanmalı, try-except bloğu
+# en az bir tane değişken tanımlanmalı
+# fonksiyon kullanılmalı
+# import ile başlanacak. 
+# pandas yüklenecek.
+
+
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
@@ -16,9 +25,8 @@ def read_data(file):
 
 data = read_data(r"c:\Users\Aslı\Downloads\imdb_top_1000.csv")
 df = pd.DataFrame(data)
-df = df.drop(columns=['Overwiev', 'Meta_Score','Star1','Star2','Star3','Star4','No_of_Votes','Gross'])
-
-print(data.head(6))
+df = df.drop(columns=['Overwiev', 'Meta_Score','Star1','Star2','Star3','Star4','No_of_Votes','Gross'], inplace=True)
+data.head()
 
 class Film:
     def __init__(self,Poster_Link, Series_Title, Released_Year, Runtime, Genre, Director, IMBD_Rating):
@@ -31,18 +39,89 @@ class Film:
         self.IMBD_Rating = IMBD_Rating
 
     def __str__(self):    # __str__ metodu film nesnesi yazdırıldığında nasıl görünüceğini tanımlar
-        return f"{self.title} -{self.released_year}- directed by {self.director}, Rating:{self.IMBD_rating}, Runtime:{self.runtime}"
+        return f"{self.Series_Title} -{self.Released_Year}- directed by {self.Director}, Rating:{self.IMBD_Rating}, Runtime:{self.Runtime}"
     
 
 df = pd.DataFrame(data)  # bu satır ham veriyi DataFrame yapısına dönüştürür.
 
 film_list = []
 for index, row in df.iterrows(): # iterrows metodu, pandas DataFrame'in satırlarını bir döngü içinde gezmek için kullanılır.
-    film = Film(row["title"], row["released_year"], row["director"], row["IMBD_rating"], row["runtime"])
+    film = Film(row["Series_Title"], row["Released_Year"], row["Director"], row["IMBD_Rating"], row["Runtime"],row["Genre"])
     film_list.append(film)
 
 for film in film_list:
     print(film)
+
+
+def get_input():
+    print("Hangi türde film izlemek istersiniz?")
+    print("1: Crime")
+    print("2: Drama")
+    print("3: Comedy")
+    print("4: Action")
+    print("5: Advanture")
+    print("6: Sci-fi")
+    print("7: Romance")
+    print("8: History")
+    print("9: Biography")
+    print("10: Western")
+    print("11: Fantasy")
+    print("12: Thriller")
+    print("13: Animation")
+    print("14: Family")
+    print("15: War")
+    print("16: Mystery")
+    print("17: Musical")
+    print("18: Horror")
+    
+
+
+    genres = {
+          1: "Crime",
+          2: "Drama",
+          3: "Comedy",
+          4: "Action",
+          5: "Advanture",
+          6: "Sci-fi",
+          7: "Romance",
+          8: "History",
+          9: "Biography",
+          10: "Western",
+          11: "Fantasy",
+          12: "Thriller",
+          13: "Animation",
+          14: "Family",
+          15: "War",
+          16: "Mystery",
+          17: "Musical",
+          18: "Horror"
+     }
+    
+    genre_choice = input("Film türünü seçmek için lütfen 0 ve 19 arasinda bir sayi girin: ")
+    try:
+        genre_choice = int(genre_choice)
+        if not 1 <= genre_choice <=18:
+            raise ValueError
+    except ValueError:
+        print("Hatali sayi girildi. Lütfen 0 ve 19 arasindan bir sayi giriniz.")
+    
+    
+    else:
+      film_turu = genres[genre_choice]
+      print(f"Seçtiğiniz film türü: {film_turu}")
+
+
+
+    
+
+
+
+
+
+
+        
+
+
 
 
         
