@@ -26,7 +26,7 @@ def read_data(file):
 data = read_data(r"c:\Users\Aslı\Downloads\imdb_top_1000.csv")
 df = pd.DataFrame(data)
 df = df.drop(columns=['Overwiev', 'Meta_Score','Star1','Star2','Star3','Star4','No_of_Votes','Gross'], inplace=True)
-data.head()
+print(data.head())
 
 class Film:
     def __init__(self,Poster_Link, Series_Title, Released_Year, Runtime, Genre, Director, IMBD_Rating):
@@ -144,8 +144,8 @@ def get_input():
     
     
     else:
-      film_turu = genres[genre_choice]
-      print(f"Seçtiğiniz film türü: {film_turu}")
+      secilen_film_turu = genres[genre_choice]
+      print(f"Seçtiğiniz film türü: {secilen_film_turu}")
 
 
 
