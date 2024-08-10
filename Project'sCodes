@@ -12,7 +12,7 @@
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
-import time
+import threading
 
 def read_data(file):
     try:
@@ -53,6 +53,38 @@ for film in film_list:
     print(film)
 
 
+
+
+
+def reminder_message():
+    print("Karar veremedin mi?\n Ruh haline göre aşağıdaki emojilerden birini seç, sana film önerelim.")
+    print("1.😶")
+    print("2.😭")
+    print("3.🥰")
+    print("4.😡")
+    print("5.😞")
+    print("6.🧐")
+
+    try:
+        emoji_choice = int(input("Emojilerden birini seç (1-6)."))
+
+        emoji_genres = {
+            1:["Comedy","Musical", "Animation"],
+            2:["Comedy", "Fantasy", "Musical"],
+            3:["Romance", "Family", "Advanture"],
+            4:["Comedy","Animation"],
+            5:["Fantasy", "Comedy", "Animation"],
+            6:["Crime", " Mystery", "Thriller"]
+
+        }
+
+    except ValueError:
+        print("Hata. Lütfen girdiğiniz sayıyı kontrol ediniz.(1-6)")
+
+    
+
+
+
 def get_input():
     print("Hangi türde film izlemek istersiniz?")
     print("1: Crime")
@@ -75,7 +107,6 @@ def get_input():
     print("18: Horror")
     
 
-
     genres = {
           1: "Crime",
           2: "Drama",
@@ -97,7 +128,13 @@ def get_input():
           18: "Horror"
      }
     
+
+    timer = threading.Timer(25, reminder_message)
+    timer.start()
+    
     genre_choice = input("Film türünü seçmek için lütfen 0 ve 19 arasinda bir sayi girin: ")
+    timer.cancel()
+
     try:
         genre_choice = int(genre_choice)
         if not 1 <= genre_choice <=18:
@@ -113,6 +150,17 @@ def get_input():
 
 
     
+
+
+    
+
+
+
+
+
+
+
+
 
 
 
