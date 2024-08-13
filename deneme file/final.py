@@ -202,11 +202,11 @@ def filter_movie(df):
 
 
 
-    print("Filmleri IMBD Rating lerine göre filtrelemek ister misiniz? ")
-    imbd_rating_choice = float(input("Lütfen 0 ile 10 arasında bir değer girin.(8.6 ya da 5 gibi)"))
+    print("Filmleri IMDB Rating lerine göre filtrelemek ister misiniz? ")
+    imdb_rating_choice = float(input("Lütfen 0 ile 10 arasında bir değer girin.(8.6 ya da 5 gibi)"))
 
-    if 1 <= imbd_rating_choice <= 10:
-        df = df[df["IMBD_Rating"] >= imbd_rating_choice]
+    if 1 <= imdb_rating_choice <= 10:
+        df = df[df["IMDB_Rating"] >= imdb_rating_choice]
     else:
         print("Geçersiz seçim.")
 

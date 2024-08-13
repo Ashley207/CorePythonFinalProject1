@@ -168,6 +168,7 @@ def filter_movie(df):
     print("2: Runtime >= 120 (dk)")
     runtime_choice = input("Seçiminizi 1 veya 2 olarak giriniz.")
 
+
     if runtime_choice == 1:
         df = df[df["Runtime"] <= 100]    # df['Runtime'] <= 100 ifadesi, df DataFrame'inde bulunan Runtime sütunundaki değerlerin 100'e eşit veya 100'den küçük olup olmadığını kontrol eder.
     elif runtime_choice == 2:
@@ -199,6 +200,19 @@ def filter_movie(df):
         pass
     else:
         print("Geçersiz seçim.")
+
+        print("Filmleri IMDB Rating lerine göre filtrelemek ister misiniz? ")
+    imdb_rating_choice = float(input("Lütfen 0 ile 10 arasında bir değer girin.(8.6 ya da 5 gibi)"))
+    if 1 <= imdb_rating_choice < 4:
+        df = df[(df["IMDB_Rating"] >= 1 ) & (df["IMDB_Rating"] < 4)]
+    elif 4 <= imdb_rating_choice < 7:
+        df = df[(df["IMDB_Rating"] >= 4 ) & (df["IMDB_Rating"] < 7)]
+    elif 7 <= imdb_rating_choice <= 10:
+        df = df[(df["IMDB_Rating"] >= 7 ) & (df["IMDB_Rating"] <= 10)] 
+    
+    else:
+        print("Geçersiz seçim.")
+    return filter_movie()
 
 
 
