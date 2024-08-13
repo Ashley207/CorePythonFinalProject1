@@ -215,6 +215,7 @@ def filter_movie(df):
 filtered_df = filter_movie(df)
 print(filtered_df.head(10))
 
+print
     
 
 
