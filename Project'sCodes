@@ -198,6 +198,7 @@ def filter_movie(df):
     elif year_choice == 6:
         pass
     else:
+        
         print("Geçersiz seçim.")
 
 
