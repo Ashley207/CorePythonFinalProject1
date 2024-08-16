@@ -5,12 +5,12 @@ import threading
 
 def read_data(file):
     try:
-        
         data = pd.read_csv(file)
         return data
     except FileNotFoundError:
         print("Dosya bulunamadı.")
         return None
+
 data = read_data("imdb_top_1000.csv")
 df = pd.DataFrame(data)
 
@@ -26,11 +26,11 @@ class Film:
         self.Director = Director
         self.IMDB_Rating = IMDB_Rating
 
-    def __str__(self):  # __str__ metodu film nesnesi yazdırıldığında nasıl görüneceğini tanımlar
+    def __str__(self):
         return f"{self.Series_Title} - {self.Released_Year} - directed by {self.Director}, Rating: {self.IMDB_Rating}, Runtime: {self.Runtime}"
 
 film_list = []
-for index, row in df.iterrows():  # iterrows metodu, pandas DataFrame'in satırlarını bir döngü içinde gezmek için kullanılır.
+for index, row in df.iterrows():
     film = Film(row["Poster_Link"], row["Series_Title"], row["Released_Year"], row["Runtime"], row["Genre"], row["Director"], row["IMDB_Rating"])
     film_list.append(film)
 
@@ -122,8 +122,6 @@ def get_input():
                 print("Lütfen 1 ile 18 arasında bir sayı girin.")
         except ValueError:
             print("Hatalı giriş. Lütfen bir sayı girin.")
-return get_input   
- 
     
 def filter_movie(df):
     print("Filmleri film sürelerine (dk) göre filtrelemek ister misiniz?")
@@ -135,10 +133,10 @@ def filter_movie(df):
         try:
             runtime_choice = int(input("Seçiminizi 1, 2 veya 3 olarak giriniz: "))
             if runtime_choice == 1:
-                df = df[df["Runtime"] <= 100]
+                df = df[df["Runtime"].str.extract(r'(\d+)').astype(int) <= 100]
                 break
             elif runtime_choice == 2:
-                df = df[df["Runtime"] >= 120]
+                df = df[df["Runtime"].str.extract(r'(\d+)').astype(int) >= 120]
                 break
             elif runtime_choice == 3:
                 break
@@ -182,22 +180,33 @@ def filter_movie(df):
                 df = df[(df["Released_Year"] >= 2010) & (df["Released_Year"] < 2020)]
             else:
                 print("Geçersiz seçim.")
+                continue  # Döngü devam etmeli
+            break  # Geçerli bir seçim yapıldığında döngüden çıkılır
         except ValueError:
             print("Hatalı giriş. Lütfen bir sayı girin.")
     
     print("Filmleri IMDB Rating'lerine göre filtrelemek ister misiniz?")
     imdb_rating_choice = float(input("Lütfen 0 ile 10 arasında bir değer girin (8.6 ya da 5 gibi): "))
 
-    if 1 <= imdb_rating_choice < 4:
-        df = df[(df["IMDB_Rating"] >= 1) & (df["IMDB_Rating"] < 4)]
-    elif 4 <= imdb_rating_choice < 7:
-        df = df[(df["IMDB_Rating"] >= 4) & (df["IMDB_Rating"] < 7)]
-    elif 7 <= imdb_rating_choice <= 10:
-        df = df[(df["IMDB_Rating"] >= 7) & (df["IMDB_Rating"] <= 10)]
+    if 0 <= imdb_rating_choice <= 10:
+        df = df[df["IMDB_Rating"] >= imdb_rating_choice]
     else:
-        print("Geçersiz seçim.")
+        print("Geçersiz giriş. IMDB Rating 0 ile 10 arasında olmalıdır.")
 
     return df
+
+genre_input = get_input()
+
 filtered_df = filter_movie(df)
-print(filtered_df.head(10))
+
+df["Selected"] = df["Genre"].str.contains(genre_input)
+
+selected_films = df[(df["Selected"])]
+
+if not selected_films.empty:
+    print("Önerilen filmler:")
+    print(selected_films)
+else:
+    print("Bu türde bir film bulunamadı.")
+
 
