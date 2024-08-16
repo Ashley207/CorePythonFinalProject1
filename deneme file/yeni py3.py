@@ -1,9 +1,10 @@
-import numpy as np
-import pandas as pd
+import numpy as np                 # veri manipülasyonu için kodumuza numpy ve pandası çağırdık
+import pandas as pd                # zamanlayıcı kullanmak için threading kütüphanesini çağırdık 
 import matplotlib.pyplot as plt
 import threading
 
-def read_data(file):
+
+def read_data(file):               # dosya ile ilgili bir hata alırsak diye bu hatayı anlamlı bir şekilde oluşturduk 
     try:
         data = pd.read_csv(file)
         return data
@@ -11,41 +12,44 @@ def read_data(file):
         print("Dosya bulunamadı.")
         return None
 
-data = read_data("imdb_top_1000.csv")
+data = read_data("imdb_top_1000.csv")      # verimizin bulunduğu excel dosyasını okuttuk
 
 if data is None:
-    print("Veri yüklenemedi, lütfen dosya yolunu kontrol edin.")
+    print("Veri yüklenemedi, lütfen dosya yolunu kontrol edin.")        # her ihtimale karşı veri dosyası boş ise bunu bize haber verecek bir uyarı ekledik
 else:
     print("Veri başarıyla yüklendi.")
-    print("Sütunlar:", data.columns.tolist())
+    print("Sütunlar:", data.columns.tolist())   # veri setinin sutün isimlerini görmek için bu satırı ekledik
+                                                # .columns(), datanın sutün isimlerini index olarak döndürür ve .tolist() bu index nesnesini bir listeye atar
 
-df = pd.DataFrame(data)
+                                                
+df = pd.DataFrame(data)         # kolay veri manipülasyonu yapabilmek için datayı dataFrame yapısına dönüştürdük
 
-class Film:
+
+class Film:           
     def __init__(self, Poster_Link, Series_Title, Released_Year, Runtime, Genre, Director, IMDB_Rating):
         self.Poster_Link = Poster_Link
         self.Series_Title = Series_Title
         self.Released_Year = Released_Year
-        self.Runtime = Runtime
+        self.Runtime = Runtime                   # aynı özelliğe sahip film nesnelerini daha az kod ile yazmak için class yapısı oluşturduk
         self.Genre = Genre
         self.Director = Director
         self.IMDB_Rating = IMDB_Rating
 
     def __str__(self):
-        return f"{self.Series_Title} - {self.Released_Year} - directed by {self.Director}, Rating: {self.IMDB_Rating}, Runtime: {self.Runtime}"
+        return f"{self.Series_Title} - {self.Released_Year} - directed by {self.Director}, Rating: {self.IMDB_Rating}, Runtime: {self.Runtime}"     # bu satır her bir film nesnesi döndüğünde nasıl görüneceğini belirtir
 
 film_list = []
-if not df.empty:
+if not df.empty:                       # DataFrame dönüştürdüğümüz veriyi nesneye çevirmek ve bu nesneleri listeye atmak için burayı kullandık, iterrows() kullanarak dataframe in satırlarında iterasyon yaptık
     for index, row in df.iterrows():
         film = Film(row["Poster_Link"], row["Series_Title"], row["Released_Year"], row["Runtime"], row["Genre"], row["Director"], row["IMDB_Rating"])
-        film_list.append(film)
+        film_list.append(film)         
 
     print(df.head())
 
 for film in film_list:
     print(film)
 
-def reminder_message():
+def reminder_message():        # kullanıcı belli bir süre içinde seçim yapamazsa ona seçiminde yardımcı olmak için hatırlatıcı bir mesaj ekledik
     print("Karar veremedin mi?\n Ruh haline göre aşağıdaki emojilerden birini seç, sana film önerelim.")
     print("1. 😶")
     print("2. 😭")
@@ -63,9 +67,9 @@ def reminder_message():
         6: ["Crime", "Mystery", "Thriller"]
     }
 
-    while True:
+    while True:                                                             # while döngüsü kullanarak kullanıcıdan geçerli bir giriş alana kadar döngüyü sürdürdük bu sayede program sonlanmadan kullanıcıya bir şans daha verdik
         try:
-            emoji_choice = int(input("Emojilerden birini seç (1-6): "))
+            emoji_choice = int(input("Emojilerden birini seç (1-6): "))     ## Bu satır için kullanıcı 1 değil de birden fazla film türü seçerse ne olur diye düşünmemiştik
             if 1 <= emoji_choice <= 6:
                 return emoji_genres[emoji_choice]
             else:
@@ -115,14 +119,14 @@ def get_input():
         18: "Horror"
     }
 
-    timer = threading.Timer(13, reminder_message)
-    timer.start()
+    timer = threading.Timer(15, reminder_message)   # tür seçimi için kullanıcıdan belli bir süre input alınmadığında reminder message çağırması için bir eklenti yazdık
+    timer.start()             # kullanıcıdan tür seçimi için input alınmadan önce timer ı başlattık
     
     while True:
         try:
             genre_choice = int(input("Film türünü seçmek için lütfen 1 ve 18 arasında bir sayı girin: "))
             if 1 <= genre_choice <= 18:
-                timer.cancel()
+                timer.cancel()       # Belirlenen süre içinde input alınırsa timer ı iptal ettik
                 return genres[genre_choice]
             else:
                 print("Lütfen 1 ile 18 arasında bir sayı girin.")
@@ -135,12 +139,12 @@ def filter_movie(df):
     print("2: Runtime >= 120 (dk)")
     print("3: Filtreleme yapma")
     
-    while True:
+    while True:                                                                       # DataFrame de bulunan verileri runtime değerlerine göre filtreledik
         try:
             runtime_choice = int(input("Seçiminizi 1, 2 veya 3 olarak giriniz: "))
             if runtime_choice == 1:
-                df = df[df["Runtime"].str.extract(r'(\d+)').astype(int) <= 100]
-                break
+                df = df[df["Runtime"].str.extract(r'(\d+)').astype(int) <= 100]        # .str.extract(r'(\d+)'): Runtime sütunundaki sayısal değerleri döndürür                                                                                       
+                break                                                                  # .astype(int): döndürülen değerleri tamsayıya dönüştürür
             elif runtime_choice == 2:
                 df = df[df["Runtime"].str.extract(r'(\d+)').astype(int) >= 120]
                 break
