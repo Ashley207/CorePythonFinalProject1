@@ -1,10 +1,9 @@
 import numpy as np                 # veri manipülasyonu için kodumuza numpy ve pandası çağırdık
 import pandas as pd                # zamanlayıcı kullanmak için threading kütüphanesini çağırdık 
-import matplotlib.pyplot as plt
 import threading
 
 
-def read_data(file):               # dosya ile ilgili bir hata alırsak diye bu hatayı anlamlı bir şekilde oluşturduk 
+def read_data(file):               # dosya ile ilgili bir hata alırsak diye bu hatayı anlamlı 
     try:
         data = pd.read_csv(file)
         return data
@@ -79,24 +78,25 @@ def reminder_message():        # kullanıcı belli bir süre içinde seçim yapa
 
 def get_input():
     print("Hangi türde film izlemek istersiniz?")
-    print("1: Crime")
-    print("2: Drama")
-    print("3: Comedy")
-    print("4: Action")
-    print("5: Adventure")
-    print("6: Sci-fi")
-    print("7: Romance")
-    print("8: History")
-    print("9: Biography")
-    print("10: Western")
-    print("11: Fantasy")
-    print("12: Thriller")
-    print("13: Animation")
-    print("14: Family")
-    print("15: War")
-    print("16: Mystery")
-    print("17: Musical")
-    print("18: Horror")
+    print("""1: Crime,
+             2: Drama,
+             3: Comedy,
+             4: Action,
+             5: Adventure,
+             6: Sci-fi,
+             7: Romance,
+             8: History,
+             9: Biography,
+             10: Western,
+             11: Fantasy,
+             12: Thriller,
+             13: Animation,
+             14: Family,
+             15: War,
+             16: Mystery,
+             17: Musical,
+             18: Horror """) 
+    
              
     genres = {
         1: "Crime",
@@ -171,23 +171,23 @@ def filter_movie(df):
             year_choice = int(input("(1-9) arasında bir değer seçiniz: "))
 
             if year_choice == 1:
-                df = df[(df["Released_Year"] >= 1930) & (df["Released_Year"] < 1940)]
+                df = df[(df["Released_Year"] >= 1930) and (df["Released_Year"] < 1940)] 
             elif year_choice == 2:
-                df = df[(df["Released_Year"] >= 1940) & (df["Released_Year"] < 1950)]
+                df = df[(df["Released_Year"] >= 1940) and (df["Released_Year"] < 1950)]
             elif year_choice == 3:
-                df = df[(df["Released_Year"] >= 1950) & (df["Released_Year"] < 1960)]
+                df = df[(df["Released_Year"] >= 1950) and (df["Released_Year"] < 1960)]
             elif year_choice == 4:
-                df = df[(df["Released_Year"] >= 1960) & (df["Released_Year"] < 1970)]
+                df = df[(df["Released_Year"] >= 1960) and (df["Released_Year"] < 1970)]
             elif year_choice == 5:
-                df = df[(df["Released_Year"] >= 1970) & (df["Released_Year"] < 1980)]
+                df = df[(df["Released_Year"] >= 1970) and (df["Released_Year"] < 1980)]
             elif year_choice == 6:
-                df = df[(df["Released_Year"] >= 1980) & (df["Released_Year"] < 1990)]
+                df = df[(df["Released_Year"] >= 1980) and (df["Released_Year"] < 1990)]
             elif year_choice == 7:
-                df = df[(df["Released_Year"] >= 1990) & (df["Released_Year"] < 2000)]
+                df = df[(df["Released_Year"] >= 1990) and (df["Released_Year"] < 2000)]
             elif year_choice == 8:
-                df = df[(df["Released_Year"] >= 2000) & (df["Released_Year"] < 2010)]
+                df = df[(df["Released_Year"] >= 2000) and (df["Released_Year"] < 2010)]
             elif year_choice == 9:
-                df = df[(df["Released_Year"] >= 2010) & (df["Released_Year"] < 2020)]
+                df = df[(df["Released_Year"] >= 2010) and (df["Released_Year"] < 2020)]
             else:
                 print("Geçersiz seçim.")
                 continue  # Döngü devam etmeli
