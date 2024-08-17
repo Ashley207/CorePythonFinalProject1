@@ -3,7 +3,7 @@ import pandas as pd                # zamanlayıcı kullanmak için threading kü
 import threading
 
 
-def read_data(file):               # dosya ile ilgili bir hata alırsak diye bu hatayı anlamlı 
+def read_data(file):               # dosya ile ilgili bir hata alırsak bu hatayı bize gösterecek bir fonksiyon kodu yazdık.
     try:
         data = pd.read_csv(file)
         return data
@@ -173,11 +173,11 @@ def filter_movie(df):
             year_choice = int(input("(1-9) arasında bir değer seçiniz: "))
 
             if year_choice == 1:
-                df = df[(df["Released_Year"] >= 1930) and (df["Released_Year"] < 1940)] 
+                df = df[(df["Released_Year"] >= 1930) and (df["Released_Year"] < 1940)]        #Çıkış yıllarına göre de DataFrame de bulunan verileri filtreledik.
             elif year_choice == 2:
-                df = df[(df["Released_Year"] >= 1940) and (df["Released_Year"] < 1950)]
+                df = df[(df["Released_Year"] >= 1940) and (df["Released_Year"] < 1950)]        # 'elif' ve 'and' yapılarını kullandık.
             elif year_choice == 3:
-                df = df[(df["Released_Year"] >= 1950) and (df["Released_Year"] < 1960)]
+                df = df[(df["Released_Year"] >= 1950) and (df["Released_Year"] < 1960)]        # while döngüsü kullanarak kullanıcıdan geçerli bir giriş alana kadar döngüyü sürdürdük bu sayede program sonlanmadan kullanıcıya bir şans daha verdik.
             elif year_choice == 4:
                 df = df[(df["Released_Year"] >= 1960) and (df["Released_Year"] < 1970)]
             elif year_choice == 5:
@@ -197,7 +197,7 @@ def filter_movie(df):
         except ValueError:
             print("Hatalı giriş. Lütfen bir sayı girin.")
     
-    print("Filmleri IMDB Rating'lerine göre filtrelemek ister misiniz?")
+    print("Filmleri IMDB Rating'lerine göre filtrelemek ister misiniz?")                                   # IMDB ratinglerine göre DataFrame de bulunan verileri filtreledik.
     imdb_rating_choice = float(input("Lütfen 0 ile 10 arasında bir değer girin (8.6 ya da 5 gibi): "))
 
     if 0 <= imdb_rating_choice <= 10:
@@ -207,17 +207,17 @@ def filter_movie(df):
 
     return df
 
-genre_input = get_input()
+genre_input = get_input()  # Kullanıcıdan hangi türde film izlemek istediğini soruyoruz.
 
-filtered_df = filter_movie(df)
+filtered_df = filter_movie(df)  # Kullanıcının belirlediği kriterlere göre filmleri filtreliyoruz.
 
-df["Selected"] = df["Genre"].str.contains(genre_input)
-
+df["Selected"] = df["Genre"].str.contains(genre_input) # Genre sütununda, kullanıcı tarafından seçilen türü içeren satırları belirliyoruz.
+                                                       # Bu sütuna "Selected" adında yeni bir sütun ekliyoruz ve True/False değerleri almasını sağlıyoruz.
 selected_films = df[df["Selected"]]
-
-if not selected_films.empty:
+                                                       # "Selected" sütunu True olan yani seçilen türe sahip filmleri seçiyoruz.
+if not selected_films.empty:                           # Eğer bu türe sahip filmler varsa, bunları ekrana yazdırıyoruz.
     print("Önerilen filmler:")
     print(selected_films)
 else:
-    print("Bu türde bir film bulunamadı.")
+    print("Bu türde bir film bulunamadı.")             # Eğer bu türe sahip film yoksa, kullanıcıya "Bu türde bir film bulunamadı." bildirimini veriyoruz.
 
