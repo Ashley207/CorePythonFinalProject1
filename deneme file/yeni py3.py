@@ -156,15 +156,17 @@ def filter_movie(df):
             print("Hatalı giriş. Lütfen bir sayı girin.")
 
     print("Filmleri yayınlanma yıllarına göre filtrelemek ister misiniz?")
-    print("1: 1930 <= Released_Year < 1940")
-    print("2: 1940 <= Released_Year < 1950")
-    print("3: 1950 <= Released_Year < 1960")
-    print("4: 1960 <= Released_Year < 1970")
-    print("5: 1970 <= Released_Year < 1980")
-    print("6: 1980 <= Released_Year < 1990")
-    print("7: 1990 <= Released_Year < 2000")
-    print("8: 2000 <= Released_Year < 2010")
-    print("9: 2010 <= Released_Year < 2020")
+   
+    print("""1: 1930 <= Released_Year < 1940 
+             2: 1940 <= Released_Year < 1950
+             3: 1950 <= Released_Year < 1960
+             4: 1960 <= Released_Year < 1970
+             5: 1970 <= Released_Year < 1980
+             6: 1980 <= Released_Year < 1990
+             7: 1990 <= Released_Year < 2000
+             8: 2000 <= Released_Year < 2010
+             9: 2010 <= Released_Year < 2020 """)
+             
 
     while True:
         try:
